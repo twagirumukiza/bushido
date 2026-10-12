@@ -1160,7 +1160,7 @@
     </div>
     <button class="close" id="music-close" title="Fermer">✕</button>
   </div>
-  <audio id="bg-audio" loop preload="metadata">
+  <audio id="bg-audio" loop preload="auto" playsinline>
     <source src="zen-bamboo-flute.mp3" type="audio/mpeg" />
   </audio>
 
@@ -1241,6 +1241,8 @@
     const musicClose = document.getElementById('music-close');
     let isPlaying = false;
 
+    audio.volume = 0.55;
+
     function updateMusicUI() {
       if (isPlaying) {
         musicPlay.textContent = '❚❚';
@@ -1251,34 +1253,49 @@
       }
     }
 
-    musicBtn.addEventListener('click', () => {
-      musicPanel.classList.toggle('visible');
-    });
-
-    musicPlay.addEventListener('click', () => {
-      if (isPlaying) {
-        audio.pause();
-        isPlaying = false;
-      } else {
-        audio.play().catch(() => {});
-        isPlaying = true;
+    function playMusic() {
+      const p = audio.play();
+      if (p !== undefined) {
+        p.then(() => {
+          isPlaying = true;
+          updateMusicUI();
+        }).catch((err) => {
+          console.warn('Lecture audio :', err);
+          isPlaying = false;
+          updateMusicUI();
+          musicPanel.classList.add('visible');
+        });
       }
-      updateMusicUI();
-    });
+    }
 
-    musicClose.addEventListener('click', () => {
-      musicPanel.classList.remove('visible');
-      if (isPlaying) {
-        audio.pause();
-        isPlaying = false;
-        updateMusicUI();
-      }
-    });
-
-    audio.addEventListener('ended', () => {
+    function pauseMusic() {
+      audio.pause();
       isPlaying = false;
       updateMusicUI();
+    }
+
+    // Clic sur ♪ → ouvre le panneau + lance la musique
+    musicBtn.addEventListener('click', () => {
+      const opening = !musicPanel.classList.contains('visible');
+      musicPanel.classList.toggle('visible');
+      if (opening && !isPlaying) {
+        playMusic();
+      }
     });
+
+    musicPlay.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (isPlaying) pauseMusic();
+      else playMusic();
+    });
+
+    musicClose.addEventListener('click', (e) => {
+      e.stopPropagation();
+      musicPanel.classList.remove('visible');
+    });
+
+    audio.addEventListener('play', () => { isPlaying = true; updateMusicUI(); });
+    audio.addEventListener('pause', () => { isPlaying = false; updateMusicUI(); });
   </script>
 </body>
 </html>
