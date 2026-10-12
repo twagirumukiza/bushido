@@ -470,7 +470,26 @@
       color: var(--text-muted);
       font-size: 0.85rem;
     }
-    footer a { color: var(--gold); text-decoration: none; }
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+      transition: opacity var(--transition);
+    }
+    footer a:hover { opacity: 0.8; text-decoration: underline; }
+    footer .sig {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+    footer .sig-links {
+      margin-top: 0.6rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+    footer .sig-links a {
+      font-size: 0.82rem;
+    }
     /* Accordion */
     details {
       background: var(--bg-card);
@@ -1147,6 +1166,11 @@
   <footer>
     <p>武士道 — Bushidō · La voie du samouraï</p>
     <p style="margin-top:0.5rem">Philosophie · Leadership · Stratégie · Développement personnel</p>
+    <p class="sig">by <strong>twagirumukiza</strong></p>
+    <div class="sig-links">
+      <a href="https://twagirumukiza.github.io/Twagirumukiza-Innocent/" target="_blank" rel="noopener">Site personnel</a>
+      <a href="https://www.linkedin.com/in/innocent-twagirumukiza?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
   </footer>
 
   <a href="#accueil" class="back-top" id="back-top" title="Retour en haut">↑</a>
