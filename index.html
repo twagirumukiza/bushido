@@ -648,14 +648,7 @@
       line-height: 1;
     }
     .music-panel .close:hover { color: var(--gold); }
-    #yt-player {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      opacity: 0;
-      pointer-events: none;
-    }
-  </style>
+    </style>
 </head>
 <body>
   <!-- Toolbar -->
@@ -664,7 +657,7 @@
       <a href="#accueil" class="logo">武士道 <span>Bushidō</span></a>
     </div>
     <div class="toolbar-right">
-      <button class="music-btn" id="music-btn" title="Musique — Yokoyama Katsuya · San'an">♪</button>
+      <button class="music-btn" id="music-btn" title="Musique — Flûte de bambou zen">♪</button>
       <button class="tb-btn" id="theme-btn" title="Changer de thème">☀️</button>
       <button class="tb-btn" id="font-down" title="Réduire">A−</button>
       <button class="tb-btn" id="font-up" title="Agrandir">A+</button>
@@ -1162,14 +1155,15 @@
   <div class="music-panel" id="music-panel">
     <button class="ctrl" id="music-play" title="Lecture / Pause">▶</button>
     <div class="info">
-      <div class="title">San'an</div>
-      <div class="artist">Yokoyama Katsuya · Dernier concert live</div>
+      <div class="title">Flûte de bambou zen</div>
+      <div class="artist">Musique méditative · Ambiance</div>
     </div>
     <button class="close" id="music-close" title="Fermer">✕</button>
   </div>
-  <div id="yt-player"></div>
+  <audio id="bg-audio" loop preload="metadata">
+    <source src="zen-bamboo-flute.mp3" type="audio/mpeg" />
+  </audio>
 
-  <script src="https://www.youtube.com/iframe_api"></script>
   <script>
     // Theme toggle
     const themeBtn = document.getElementById('theme-btn');
@@ -1239,62 +1233,51 @@
       });
     });
 
-    // ——— Music: Yokoyama Katsuya — San'an (last live) ———
-    let ytPlayer = null;
-    let isPlaying = false;
+    // ——— Music: Flûte de bambou zen (ambiance) ———
+    const audio = document.getElementById('bg-audio');
     const musicBtn = document.getElementById('music-btn');
     const musicPanel = document.getElementById('music-panel');
     const musicPlay = document.getElementById('music-play');
     const musicClose = document.getElementById('music-close');
+    let isPlaying = false;
 
-    function onYouTubeIframeAPIReady() {
-      ytPlayer = new YT.Player('yt-player', {
-        height: '1',
-        width: '1',
-        videoId: 'bSjH8qWwFzI',
-        playerVars: {
-          autoplay: 0,
-          controls: 0,
-          modestbranding: 1,
-          rel: 0,
-          playsinline: 1
-        },
-        events: {
-          onStateChange: (e) => {
-            if (e.data === YT.PlayerState.PLAYING) {
-              isPlaying = true;
-              musicPlay.textContent = '❚❚';
-              musicBtn.classList.add('playing');
-            } else if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
-              isPlaying = false;
-              musicPlay.textContent = '▶';
-              musicBtn.classList.remove('playing');
-            }
-          }
-        }
-      });
+    function updateMusicUI() {
+      if (isPlaying) {
+        musicPlay.textContent = '❚❚';
+        musicBtn.classList.add('playing');
+      } else {
+        musicPlay.textContent = '▶';
+        musicBtn.classList.remove('playing');
+      }
     }
-    // Expose for YouTube API callback
-    window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
 
     musicBtn.addEventListener('click', () => {
       musicPanel.classList.toggle('visible');
     });
 
     musicPlay.addEventListener('click', () => {
-      if (!ytPlayer) return;
       if (isPlaying) {
-        ytPlayer.pauseVideo();
+        audio.pause();
+        isPlaying = false;
       } else {
-        ytPlayer.playVideo();
+        audio.play().catch(() => {});
+        isPlaying = true;
       }
+      updateMusicUI();
     });
 
     musicClose.addEventListener('click', () => {
       musicPanel.classList.remove('visible');
-      if (ytPlayer && isPlaying) {
-        ytPlayer.pauseVideo();
+      if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+        updateMusicUI();
       }
+    });
+
+    audio.addEventListener('ended', () => {
+      isPlaying = false;
+      updateMusicUI();
     });
   </script>
 </body>
