@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Le Bushidō — La Voie du Samouraï | Discipline, Honneur & Stratégie</title>
+  <meta name="description" content="Comprendre le Bushidō : la voie du samouraï, une philosophie de discipline, d'honneur et de stratégie applicable au leadership, à la gestion des risques et au développement personnel." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --font-scale: 1;
+      --bg: #0a0a0c;
+      --bg-card: #141416;
+      --bg-elevated: #1c1c20;
+      --gold: #c9a227;
+      --gold-light: #e8d48b;
+      --gold-dim: #8a7020;
+      --red: #8b2e2e;
+      --red-soft: #a84848;
+      --text: #e8e2d9;
+      --text-muted: #a89f91;
+      --border: #2a2826;
+      --radius: 12px;
+      --shadow: 0 8px 32px rgba(0,0,0,0.45);
+      --transition: 0.25s ease;
+      --toolbar-bg: rgba(10,10,12,0.95);
+    }
+    [data-theme="light"] {
+      --bg: #f7f4ef;
+      --bg-card: #ffffff;
+      --bg-elevated: #f0ebe3;
+      --gold: #9a7b1a;
+      --gold-light: #7a6210;
+      --gold-dim: #c9a227;
+      --red: #a33;
+      --red-soft: #c55;
+      --text: #1a1814;
+      --text-muted: #5c564c;
+      --border: #ddd5c8;
+      --shadow: 0 8px 32px rgba(0,0,0,0.08);
+      --toolbar-bg: rgba(247,244,239,0.95);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: calc(16px * var(--font-scale)); }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 15% 0%, rgba(201,162,39,0.07) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 100%, rgba(139,46,46,0.06) 0%, transparent 45%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    /* Toolbar */
+    .toolbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 1.25rem;
+      background: var(--toolbar-bg);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .toolbar-left { display: flex; align-items: center; gap: 0.75rem; }
+    .toolbar-right { display: flex; align-items: center; gap: 0.5rem; }
+    .logo {
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--gold);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+    .logo span { color: var(--text-muted); font-weight: 400; font-size: 0.85rem; margin-left: 0.4rem; }
+    .tb-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.35rem 0.6rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all var(--transition);
+    }
+    .tb-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
+    /* Nav */
+    .nav {
+      position: fixed;
+      top: 52px; left: 0; right: 0;
+      z-index: 999;
+      background: var(--toolbar-bg);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
+    }
+    .nav::-webkit-scrollbar { display: none; }
+    .nav-inner {
+      display: flex;
+      gap: 0.15rem;
+      padding: 0.5rem 1rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 0.4rem 0.7rem;
+      border-radius: 6px;
+      transition: all var(--transition);
+    }
+    .nav a:hover, .nav a.active { color: var(--gold); background: rgba(201,162,39,0.1); }
+    /* Hero */
+    .hero {
+      min-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 7rem 1.5rem 4rem;
+      position: relative;
+    }
+    .hero-kanji {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(4rem, 12vw, 7rem);
+      font-weight: 700;
+      color: var(--gold);
+      opacity: 0.15;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -55%);
+      pointer-events: none;
+      letter-spacing: 0.1em;
+    }
+    .hero h1 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 600;
+      line-height: 1.25;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+    .hero h1 .accent { color: var(--gold); }
+    .hero .subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--text-muted);
+      max-width: 640px;
+      margin: 0 auto 1.5rem;
+      font-weight: 400;
+    }
+    .hero .quote {
+      font-family: 'Noto Serif JP', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--gold-light);
+      max-width: 520px;
+      margin: 1.5rem auto 0;
+      padding: 1rem 1.25rem;
+      border-left: 3px solid var(--gold);
+      text-align: left;
+      background: rgba(201,162,39,0.06);
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .scroll-hint {
+      margin-top: 2.5rem;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+    .hero-image-wrap {
+      margin: 2.25rem auto 0;
+      max-width: 560px;
+      width: 100%;
+      position: relative;
+    }
+    .hero-image-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+      opacity: 0.92;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .hero-image-wrap:hover img {
+      opacity: 1;
+      transform: scale(1.01);
+    }
+    .hero-image-caption {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 0.6rem;
+      letter-spacing: 0.02em;
+      font-style: italic;
+    }
+    [data-theme="dark"] .hero-image-wrap img {
+      opacity: 0.88;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+    }
+    /* Main layout */
+    main {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 6rem;
+    }
+    section {
+      margin-bottom: 4.5rem;
+      scroll-margin-top: 110px;
+    }
+    .section-num {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.85rem;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+    }
+    h2 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(1.45rem, 3.5vw, 1.85rem);
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      line-height: 1.3;
+      color: var(--text);
+    }
+    h3 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 2rem 0 0.85rem;
+      color: var(--gold-light);
+    }
+    h4 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin: 1.5rem 0 0.6rem;
+      color: var(--text);
+    }
+    p { margin-bottom: 1.1rem; color: var(--text); }
+    .lead { font-size: 1.08rem; color: var(--text-muted); }
+    ul, ol { margin: 0.8rem 0 1.2rem 1.4rem; }
+    li { margin-bottom: 0.45rem; }
+    strong { color: var(--gold-light); font-weight: 600; }
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.35rem 1.5rem;
+      margin: 1.25rem 0;
+      box-shadow: var(--shadow);
+    }
+    .card-virtue {
+      border-left: 3px solid var(--gold);
+    }
+    .virtue-name {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.15rem;
+      color: var(--gold);
+      margin-bottom: 0.35rem;
+    }
+    .virtue-jp {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+    /* Example box */
+    .example {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      margin: 1rem 0;
+    }
+    .ex-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .lesson {
+      background: rgba(201,162,39,0.08);
+      border-left: 3px solid var(--gold);
+      padding: 0.85rem 1.1rem;
+      margin: 1rem 0;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.95rem;
+    }
+    .lesson strong { color: var(--gold); }
+    /* Grid virtues */
+    .virtues-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    @media (min-width: 640px) {
+      .virtues-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .virtue-mini {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem 1.2rem;
+      transition: border-color var(--transition);
+    }
+    .virtue-mini:hover { border-color: var(--gold-dim); }
+    .virtue-mini .jp { font-family: 'Noto Serif JP', serif; color: var(--gold); font-size: 1.05rem; }
+    .virtue-mini .fr { font-size: 0.9rem; color: var(--text-muted); margin-top: 0.2rem; }
+    /* Steps */
+    .steps {
+      counter-reset: step;
+      list-style: none;
+      margin-left: 0;
+      padding-left: 0;
+    }
+    .steps li {
+      counter-increment: step;
+      position: relative;
+      padding-left: 2.8rem;
+      margin-bottom: 1.1rem;
+    }
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1.9rem;
+      height: 1.9rem;
+      background: var(--gold);
+      color: #0a0a0c;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    /* Books */
+    .book {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.4rem;
+      margin: 1rem 0;
+    }
+    .book-num {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.6rem;
+      color: var(--gold);
+      font-weight: 700;
+      line-height: 1;
+      min-width: 2rem;
+    }
+    /* Exercise */
+    .exercise {
+      background: linear-gradient(135deg, rgba(201,162,39,0.08), rgba(139,46,46,0.06));
+      border: 1px solid var(--gold-dim);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .exercise h4 { color: var(--gold); margin-top: 0; }
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2.5rem 1.25rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+    /* Accordion */
+    details {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin: 0.75rem 0;
+      overflow: hidden;
+    }
+    summary {
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      font-weight: 500;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background var(--transition);
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary:hover { background: var(--bg-elevated); }
+    summary::after {
+      content: '+';
+      font-size: 1.2rem;
+      color: var(--gold);
+      font-weight: 300;
+    }
+    details[open] summary::after { content: '−'; }
+    .details-body { padding: 0 1.25rem 1.25rem; }
+    /* TOC cards on home */
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.85rem;
+      margin: 2rem 0;
+    }
+    .toc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem 1.2rem;
+      text-decoration: none;
+      color: inherit;
+      transition: all var(--transition);
+      display: block;
+    }
+    .toc-card:hover {
+      border-color: var(--gold-dim);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+    .toc-card .num {
+      font-family: 'Noto Serif JP', serif;
+      color: var(--gold);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .toc-card .title {
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-top: 0.25rem;
+    }
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 3rem 0;
+    }
+    /* Back to top */
+    .back-top {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: all var(--transition);
+      z-index: 100;
+      font-size: 1.2rem;
+      text-decoration: none;
+    }
+    .back-top.visible { opacity: 1; pointer-events: auto; }
+    .back-top:hover { background: var(--gold); color: #0a0a0c; }
+
+    /* Music player */
+    .music-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .music-btn:hover, .music-btn.playing {
+      border-color: var(--gold-dim);
+      color: var(--gold);
+    }
+    .music-btn.playing {
+      animation: pulse-gold 2s ease-in-out infinite;
+    }
+    @keyframes pulse-gold {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(201,162,39,0.3); }
+      50% { box-shadow: 0 0 0 4px rgba(201,162,39,0); }
+    }
+    .music-panel {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 1.5rem;
+      z-index: 200;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.85rem 1.1rem;
+      box-shadow: var(--shadow);
+      display: none;
+      align-items: center;
+      gap: 0.85rem;
+      max-width: 320px;
+      backdrop-filter: blur(12px);
+    }
+    .music-panel.visible { display: flex; }
+    .music-panel .info {
+      flex: 1;
+      min-width: 0;
+    }
+    .music-panel .title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .music-panel .artist {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+    }
+    .music-panel .ctrl {
+      background: var(--gold);
+      color: #0a0a0c;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.15s;
+    }
+    .music-panel .ctrl:hover { transform: scale(1.08); }
+    .music-panel .close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.2rem;
+      line-height: 1;
+    }
+    .music-panel .close:hover { color: var(--gold); }
+    #yt-player {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <a href="#accueil" class="logo">武士道 <span>Bushidō</span></a>
+    </div>
+    <div class="toolbar-right">
+      <button class="music-btn" id="music-btn" title="Musique — Yokoyama Katsuya · San'an">♪</button>
+      <button class="tb-btn" id="theme-btn" title="Changer de thème">☀️</button>
+      <button class="tb-btn" id="font-down" title="Réduire">A−</button>
+      <button class="tb-btn" id="font-up" title="Agrandir">A+</button>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="#accueil">Accueil</a>
+      <a href="#definition">Bushidō</a>
+      <a href="#vertus">7 Vertus</a>
+      <a href="#maitrise">Maîtrise de soi</a>
+      <a href="#discipline">Discipline</a>
+      <a href="#lucidite">Lucidité</a>
+      <a href="#mort">Conscience de la mort</a>
+      <a href="#strategie">Stratégie</a>
+      <a href="#leadership">Leadership</a>
+      <a href="#cyber">Cybersécurité</a>
+      <a href="#limites">Limites</a>
+      <a href="#ouvrages">Ouvrages</a>
+      <a href="#quotidien">Au quotidien</a>
+      <a href="#conclusion">Conclusion</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero" id="accueil">
+    <div class="hero-kanji">武士道</div>
+    <h1>Le <span class="accent">Bushidō</span><br>La voie du samouraï</h1>
+    <p class="subtitle">Une philosophie de discipline, d’honneur et de stratégie — applicable au leadership, à la gestion des risques et au développement personnel.</p>
+    <blockquote class="quote">
+      « La véritable victoire n’est pas toujours celle que l’on remporte sur un adversaire. Elle peut être celle qui consiste à ne pas se laisser gouverner par la peur, l’orgueil ou la colère. »
+    </blockquote>
+    <div class="hero-image-wrap">
+      <img src="samurai-meditation.jpeg" alt="Samouraï en méditation dans un jardin japonais — maîtrise de soi et sérénité" loading="eager" />
+      <p class="hero-image-caption">Maîtrise de soi · Le guerrier et le jardin intérieur</p>
+    </div>
+    <div class="scroll-hint">↓ Explorer la voie</div>
+  </header>
+
+  <main>
+    <!-- Intro -->
+    <section id="intro">
+      <p class="lead">Dans l’imaginaire collectif, le samouraï est un guerrier japonais armé d’un sabre, prêt à affronter la mort sans hésitation. Pourtant, réduire le samouraï à sa maîtrise du combat serait passer à côté de l’essentiel.</p>
+      <p>Derrière cette figure historique se trouve une réflexion plus vaste sur le <strong>devoir</strong>, le <strong>courage</strong>, la <strong>loyauté</strong>, la <strong>maîtrise de soi</strong>, la <strong>responsabilité</strong> et la manière de prendre des décisions dans les situations difficiles.</p>
+      <p>Cette réflexion est souvent associée au <strong>Bushidō (武士道)</strong>, que l’on traduit par « la voie du guerrier ».</p>
+      <p>Le Bushidō ne désigne pas un code unique, officiellement établi et appliqué de la même manière par tous les samouraïs. Il correspond plutôt à un ensemble de valeurs, de pratiques et d’idéaux moraux qui se sont développés au fil des siècles, sous l’influence du confucianisme, du bouddhisme et du shintoïsme.</p>
+      <p>Aujourd’hui, cette philosophie peut encore nourrir notre réflexion sur le leadership, la gestion des risques, la négociation, la prise de décision et le développement personnel.</p>
+
+      <div class="toc-grid">
+        <a href="#definition" class="toc-card"><div class="num">01</div><div class="title">Qu’est-ce que le Bushidō ?</div></a>
+        <a href="#vertus" class="toc-card"><div class="num">02</div><div class="title">Les sept vertus</div></a>
+        <a href="#maitrise" class="toc-card"><div class="num">03</div><div class="title">Maîtrise de soi</div></a>
+        <a href="#discipline" class="toc-card"><div class="num">04</div><div class="title">Discipline</div></a>
+        <a href="#lucidite" class="toc-card"><div class="num">05</div><div class="title">Lucidité</div></a>
+        <a href="#strategie" class="toc-card"><div class="num">07</div><div class="title">Stratégie</div></a>
+        <a href="#leadership" class="toc-card"><div class="num">08</div><div class="title">Leadership</div></a>
+        <a href="#cyber" class="toc-card"><div class="num">09</div><div class="title">Cybersécurité</div></a>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 1. Définition -->
+    <section id="definition">
+      <div class="section-num">01</div>
+      <h2>Qu’est-ce que le Bushidō ?</h2>
+      <p>Le mot <strong>Bushidō</strong> est composé de trois éléments :</p>
+      <ul>
+        <li><strong>Bushi (武士)</strong> : le guerrier, ou membre de la classe des guerriers.</li>
+        <li><strong>Dō (道)</strong> : la voie, le chemin ou une manière de vivre.</li>
+        <li><strong>Bushidō (武士道)</strong> : la voie du guerrier.</li>
+      </ul>
+      <p>Le terme ne renvoie donc pas uniquement à une technique de combat. Il évoque un idéal de conduite et une conception de la responsabilité du guerrier.</p>
+
+      <h3>Une philosophie façonnée par l’histoire</h3>
+      <p>Les samouraïs ont occupé différentes fonctions selon les époques. Guerriers au service de puissants seigneurs, ils sont progressivement devenus, pendant certaines périodes de paix, des administrateurs, des fonctionnaires et des acteurs de la vie politique.</p>
+      <p>Toutefois, les comportements réels des samouraïs n’ont pas toujours correspondu aux idéaux que l’on leur attribue aujourd’hui. Les guerres de pouvoir, les trahisons et les changements d’allégeance ont également marqué leur histoire.</p>
+      <div class="card">
+        <p><strong>Deux distinctions essentielles :</strong></p>
+        <ul>
+          <li><strong>La réalité historique</strong> : une classe sociale dont les obligations et les pratiques ont évolué selon les périodes.</li>
+          <li><strong>L’idéal du Bushidō</strong> : un ensemble de valeurs servant à réfléchir à ce que devrait être la conduite d’un guerrier honorable.</li>
+        </ul>
+      </div>
+
+      <h3>Les influences philosophiques</h3>
+      <ul>
+        <li><strong>Le confucianisme</strong> a contribué à valoriser le devoir, la loyauté, les relations sociales et la responsabilité.</li>
+        <li><strong>Le bouddhisme</strong>, notamment certaines traditions zen, a nourri des réflexions sur l’impermanence, l’attention et le détachement.</li>
+        <li><strong>Le shintoïsme</strong> a contribué à façonner certains rapports aux traditions, aux ancêtres et au sacré.</li>
+        <li><strong>Les expériences militaires</strong> ont entretenu l’importance de la discipline, de la préparation et de la stratégie.</li>
+      </ul>
+      <p>Ces influences ne se combinaient pas de manière identique chez tous les guerriers. Le Bushidō est le résultat d’une évolution historique, et non d’une doctrine apparue d’un seul coup.</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 2. Les sept vertus -->
+    <section id="vertus">
+      <div class="section-num">02</div>
+      <h2>Les sept vertus traditionnellement associées au Bushidō</h2>
+      <p>Une présentation moderne très connue repose sur sept vertus. Cette classification est notamment popularisée par <strong>Inazō Nitobe</strong> dans <em>Bushido: The Soul of Japan</em> (1899). Elle constitue une grille de lecture utile, mais elle ne doit pas être considérée comme un code universellement suivi par tous les samouraïs.</p>
+
+      <div class="virtues-grid">
+        <div class="virtue-mini"><div class="jp">義 — Gi</div><div class="fr">La droiture</div></div>
+        <div class="virtue-mini"><div class="jp">勇 — Yū</div><div class="fr">Le courage</div></div>
+        <div class="virtue-mini"><div class="jp">仁 — Jin</div><div class="fr">La bienveillance</div></div>
+        <div class="virtue-mini"><div class="jp">礼 — Rei</div><div class="fr">Le respect</div></div>
+        <div class="virtue-mini"><div class="jp">誠 — Makoto</div><div class="fr">La sincérité</div></div>
+        <div class="virtue-mini"><div class="jp">名誉 — Meiyō</div><div class="fr">L’honneur</div></div>
+        <div class="virtue-mini"><div class="jp">忠義 — Chūgi</div><div class="fr">La loyauté</div></div>
+      </div>
+
+      <!-- Gi -->
+      <div class="card card-virtue">
+        <div class="virtue-name">2.1. Gi — La droiture et la justice</div>
+        <p>La droiture consiste à agir conformément à ce que l’on estime juste, même lorsque la décision présente un coût personnel. Elle demande de distinguer ce qui est avantageux de ce qui est légitime.</p>
+        <div class="example">
+          <div class="ex-label">Exemple contemporain</div>
+          <p>Un responsable découvre qu’un projet présente un risque important pour les données personnelles des clients. Il pourrait dissimuler le problème afin de respecter les délais. La droiture consiste au contraire à signaler le risque, à expliquer ses conséquences et à proposer une solution.</p>
+        </div>
+        <div class="lesson"><strong>Leçon :</strong> le véritable professionnalisme ne consiste pas à obtenir un résultat à n’importe quel prix, mais à obtenir un résultat défendable.</div>
+      </div>
+
+      <!-- Yu -->
+      <div class="card card-virtue">
+        <div class="virtue-name">2.2. Yū — Le courage</div>
+        <p>Le courage ne signifie pas l’absence de peur. Il consiste à agir avec lucidité malgré la peur, lorsque l’action est nécessaire. Il existe plusieurs formes : physique, moral, intellectuel et social.</p>
+        <p>Il ne faut pas confondre courage et imprudence. Affronter un danger sans en mesurer les conséquences n’est pas nécessairement une preuve de bravoure.</p>
+        <div class="example">
+          <div class="ex-label">Exemple contemporain</div>
+          <p>Lors d’une réunion de direction, un expert identifie une faiblesse majeure dans le dispositif de sécurité. Les dirigeants souhaitent éviter toute dépense supplémentaire. L’expert doit présenter clairement le risque, même s’il sait que son analyse sera mal accueillie.</p>
+        </div>
+        <div class="lesson"><strong>Leçon :</strong> le courage n’est pas de rechercher le danger, mais de ne pas abandonner ses responsabilités lorsqu’il apparaît.</div>
+      </div>
+
+      <!-- Jin -->
+      <div class="card card-virtue">
+        <div class="virtue-name">2.3. Jin — La bienveillance</div>
+        <p>La bienveillance rappelle que la force et l’autorité impliquent une responsabilité envers les autres. Elle invite à employer ses capacités pour protéger, aider et construire, sans pour autant toujours céder ou éviter les conflits.</p>
+        <div class="example">
+          <div class="ex-label">Exemple contemporain</div>
+          <p>Un manager doit annoncer une réorganisation qui affectera son équipe. Il ne peut pas supprimer toutes les conséquences négatives, mais il peut expliquer les raisons, écouter et rechercher les solutions les moins dommageables.</p>
+        </div>
+        <div class="lesson"><strong>Leçon :</strong> l’autorité est plus légitime lorsqu’elle s’accompagne de responsabilité.</div>
+      </div>
+
+      <!-- Rei -->
+      <div class="card card-virtue">
+        <div class="virtue-name">2.4. Rei — Le respect</div>
+        <p>Le respect se manifeste dans les paroles, les comportements et la manière de traiter autrui. Il exige de reconnaître la dignité des autres, y compris en cas de désaccord, et de maîtriser ses réactions.</p>
+        <div class="example">
+          <div class="ex-label">Exemple contemporain</div>
+          <p>Au cours d’une négociation, une partie cherche à provoquer l’autre pour la déstabiliser. Rester calme, écouter et répondre sur le fond permet de préserver sa capacité de jugement.</p>
+        </div>
+        <div class="lesson"><strong>Leçon :</strong> la maîtrise de son comportement constitue une forme de force.</div>
+      </div>
+
+      <!-- Makoto -->
+      <div class="card card-virtue">
+        <div class="virtue-name">2.5. Makoto — La sincérité</div>
+        <p>La sincérité consiste à aligner ses paroles, ses intentions et ses actes. Elle implique de ne pas promettre ce que l’on ne peut tenir, de reconnaître ses limites et de corriger les informations erronées.</p>
+        <div class="example">
+          <div class="ex-label">Exemple contemporain</div>
+          <p>Un consultant constate qu’un projet prendra davantage de temps que prévu. Présenter les faits, les causes et les options possibles permet une décision mieux informée, même si la discussion est difficile à court terme.</p>
+        </div>
+        <div class="lesson"><strong>Leçon :</strong> la confiance se construit lorsque les autres peuvent compter sur la cohérence entre ce que l’on dit et ce que l’on fait.</div>
+      </div>
+
+      <!-- Meiyo -->
+      <div class="card card-virtue">
+        <div class="virtue-name">2.6. Meiyō — L’honneur</div>
+        <p>L’honneur renvoie à la dignité morale et à la cohérence de la conduite. Il ne faut pas le confondre avec la réputation : l’honneur repose davantage sur la manière dont nous assumons nos décisions.</p>
+        <div class="example">
+          <div class="ex-label">Exemple contemporain</div>
+          <p>Un dirigeant prend une décision qui entraîne des conséquences négatives. Au lieu de rejeter la faute sur ses collaborateurs, il reconnaît sa part de responsabilité et organise les mesures correctives.</p>
+        </div>
+        <div class="lesson"><strong>Leçon :</strong> l’honneur ne consiste pas à ne jamais tomber, mais à savoir répondre de ses actes.</div>
+      </div>
+
+      <!-- Chugi -->
+      <div class="card card-virtue">
+        <div class="virtue-name">2.7. Chūgi — La loyauté</div>
+        <p>La loyauté signifie respecter ses engagements et agir avec fiabilité. Dans le monde contemporain, elle ne peut pas être assimilée à une obéissance inconditionnelle. Un collaborateur loyal peut devoir alerter sa direction lorsqu’une décision menace la sécurité ou enfreint la loi.</p>
+        <div class="example">
+          <div class="ex-label">Exemple contemporain</div>
+          <p>Un salarié découvre une pratique contraire aux règles de son organisation. Il peut se taire pour protéger ses supérieurs ou utiliser les procédures appropriées pour signaler le problème.</p>
+        </div>
+        <div class="lesson"><strong>Leçon :</strong> la loyauté véritable ne doit pas devenir une excuse pour renoncer à sa conscience.</div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 3. Maîtrise de soi -->
+    <section id="maitrise">
+      <div class="section-num">03</div>
+      <h2>La maîtrise de soi : gouverner ses réactions avant de vouloir gouverner les autres</h2>
+      <p>Dans une situation tendue, la première difficulté n’est pas toujours l’adversaire. Elle peut être notre propre réaction : la colère, la peur, l’impatience, l’orgueil ou le désir de prendre immédiatement sa revanche.</p>
+      <p>Ces émotions sont naturelles. Le problème apparaît lorsqu’elles remplacent l’analyse. Une personne qui réagit systématiquement sous le coup de l’émotion devient prévisible.</p>
+      <p>La maîtrise de soi consiste donc à créer un <strong>espace entre l’événement et la réaction</strong>.</p>
+
+      <h3>Comment appliquer ce principe ?</h3>
+      <ol class="steps">
+        <li><strong>Observer</strong> : établir ce qui s’est réellement passé, sans confondre les faits et les interprétations.</li>
+        <li><strong>Comprendre</strong> : rechercher les causes, les intérêts en présence et les conséquences possibles.</li>
+        <li><strong>Choisir</strong> : déterminer l’action la plus appropriée au lieu de réagir automatiquement.</li>
+        <li><strong>Agir</strong> : mettre en œuvre la décision avec calme et cohérence.</li>
+      </ol>
+      <div class="lesson"><strong>Application au leadership :</strong> un bon responsable n’est pas celui qui ne ressent jamais de colère, mais celui qui évite de transformer sa colère en décision injuste.</div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 4. Discipline -->
+    <section id="discipline">
+      <div class="section-num">04</div>
+      <h2>La discipline : se préparer avant que l’épreuve n’arrive</h2>
+      <p>Le samouraï ne pouvait pas compter uniquement sur son courage au moment du combat. La préparation, l’entraînement et la répétition étaient essentiels.</p>
+      <p>La discipline consiste à réaliser régulièrement les efforts nécessaires, y compris lorsque la motivation diminue. Elle concerne le corps, l’esprit, les connaissances et les habitudes.</p>
+
+      <div class="card">
+        <h4>La différence entre motivation et discipline</h4>
+        <p>La motivation varie selon les circonstances. La discipline permet de continuer à progresser même lorsque l’enthousiasme initial a disparu.</p>
+        <p>Cela ne signifie pas qu’il faut s’épuiser. Une discipline intelligente suppose aussi de savoir adapter ses efforts, se reposer et corriger son approche.</p>
+      </div>
+      <div class="lesson"><strong>Leçon :</strong> il vaut mieux une progression régulière et durable qu’un effort spectaculaire mais éphémère.</div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 5. Lucidité -->
+    <section id="lucidite">
+      <div class="section-num">05</div>
+      <h2>La lucidité : voir la réalité telle qu’elle est</h2>
+      <p>La stratégie exige de connaître sa propre situation, ses capacités, ses limites et les circonstances. Une personne qui surestime ses forces peut prendre des risques excessifs. Une personne qui sous-estime ses capacités peut abandonner un objectif atteignable.</p>
+      <p>Il faut distinguer les <strong>faits établis</strong>, les <strong>hypothèses</strong> et les <strong>informations manquantes</strong>.</p>
+      <div class="example">
+        <div class="ex-label">Exemple : une décision stratégique</div>
+        <p>Une entreprise envisage de lancer un nouveau produit. Les dirigeants sont convaincus que le marché leur est favorable. Pourtant, les données montrent que les clients ne sont pas prêts à payer le prix envisagé et qu’un concurrent possède déjà une position solide.</p>
+        <p>La lucidité consiste à prendre ces éléments au sérieux, même s’ils contredisent l’enthousiasme initial. Il peut alors être préférable de modifier l’offre, de tester le marché à petite échelle ou de reporter le lancement.</p>
+      </div>
+      <div class="lesson"><strong>Leçon :</strong> la réalité ne change pas parce que nous préférons une autre conclusion.</div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 6. Conscience de la mort -->
+    <section id="mort">
+      <div class="section-num">06</div>
+      <h2>La conscience de la mort : comprendre la valeur du temps</h2>
+      <p>La place accordée à la mort dans certains textes associés au Bushidō (notamment le <em>Hagakure</em> de Yamamoto Tsunetomo) est l’un de leurs aspects les plus difficiles à interpréter.</p>
+      <p>Il serait dangereux d’en tirer la conclusion qu’il faut mépriser sa vie ou rechercher le sacrifice. Une lecture contemporaine peut retenir une autre idée : <strong>la vie est limitée</strong>, et cette limite nous oblige à réfléchir à ce qui mérite réellement notre temps.</p>
+      <div class="card">
+        <p>La conscience de la mortalité peut nous amener à poser plusieurs questions :</p>
+        <ul>
+          <li>Quels objectifs méritent véritablement mes efforts ?</li>
+          <li>Quelles décisions est-ce que je repousse par peur de l’échec ?</li>
+          <li>Quelles obligations ai-je envers les personnes qui comptent sur moi ?</li>
+          <li>Est-ce que je consacre mon temps à ce qui a du sens pour moi ?</li>
+        </ul>
+      </div>
+      <div class="lesson"><strong>Leçon :</strong> savoir que le temps est limité aide à distinguer l’essentiel de l’accessoire.</div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 7. Stratégie -->
+    <section id="strategie">
+      <div class="section-num">07</div>
+      <h2>Le Bushidō et la stratégie : gagner ne signifie pas nécessairement combattre</h2>
+      <p>La voie du samouraï est souvent associée au combat, mais la réflexion stratégique japonaise permet aussi d’étudier la manière d’éviter les affrontements inutiles.</p>
+      <p>Il est important de distinguer le Bushidō (idéaux de conduite), l’œuvre de Miyamoto Musashi (stratégie et pratique martiale) et <em>L’Art de la guerre</em> de Sun Tzu. Ces traditions ne sont pas identiques, mais elles peuvent être mises en dialogue.</p>
+      <p>Une victoire obtenue par la force peut coûter cher : ressources, temps, vies humaines, réputation et stabilité future. Dans certaines situations, la meilleure décision consiste à modifier les conditions du conflit afin qu’un affrontement devienne inutile.</p>
+
+      <h3>La force ne suffit pas</h3>
+      <p>La stratégie consiste à articuler plusieurs dimensions :</p>
+      <ul>
+        <li>la connaissance de soi ;</li>
+        <li>la compréhension de l’environnement ;</li>
+        <li>l’identification des objectifs prioritaires ;</li>
+        <li>l’anticipation des réactions ;</li>
+        <li>la sélection du moment opportun ;</li>
+        <li>la préservation des ressources ;</li>
+        <li>la capacité à réviser son plan.</li>
+      </ul>
+
+      <h3>Savoir reculer pour mieux décider</h3>
+      <p>Le retrait n’est pas nécessairement une défaite. Un compromis n’est pas automatiquement un signe de faiblesse. Cependant, éviter le combat à tout prix n’est pas toujours la meilleure solution.</p>
+      <div class="lesson"><strong>La question stratégique n’est pas :</strong> « Faut-il combattre ou reculer ? » <br><strong>Elle est plutôt :</strong> « Quelle action permet d’atteindre l’objectif légitime au meilleur coût, compte tenu des risques et des conséquences ? »</div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 8. Leadership -->
+    <section id="leadership">
+      <div class="section-num">08</div>
+      <h2>Le Bushidō appliqué au leadership et au management</h2>
+      <p>Les valeurs associées au Bushidō peuvent offrir une grille de lecture utile aux responsables d’équipe, aux dirigeants et aux chefs de projet.</p>
+
+      <details>
+        <summary>Le courage managérial</summary>
+        <div class="details-body">
+          <p>Un responsable doit parfois prendre des décisions difficiles, annoncer un problème ou contredire une personne influente. Le courage consiste à assumer cette responsabilité sans rechercher inutilement la confrontation.</p>
+        </div>
+      </details>
+      <details>
+        <summary>La loyauté envers l’équipe</summary>
+        <div class="details-body">
+          <p>La loyauté ne signifie pas dissimuler les erreurs des collaborateurs. Elle consiste à être fiable, à défendre des décisions justifiables et à traiter les problèmes avec équité.</p>
+        </div>
+      </details>
+      <details>
+        <summary>L’honneur dans la décision</summary>
+        <div class="details-body">
+          <p>Un manager responsable ne s’attribue pas seul les succès tout en rejetant les échecs sur son équipe. Il reconnaît les contributions, assume ses responsabilités et corrige les erreurs.</p>
+        </div>
+      </details>
+      <details>
+        <summary>La discipline collective</summary>
+        <div class="details-body">
+          <p>Une équipe performante repose sur des règles compréhensibles, des rôles clairs et des habitudes de travail cohérentes. La discipline ne doit pas supprimer l’initiative : elle doit permettre à chacun d’agir efficacement.</p>
+        </div>
+      </details>
+      <details>
+        <summary>La maîtrise de soi en situation de crise</summary>
+        <div class="details-body">
+          <p>En période de crise, l’agitation peut se propager rapidement. Le responsable doit distinguer les informations vérifiées des rumeurs, fixer des priorités et communiquer avec clarté.</p>
+        </div>
+      </details>
+      <div class="lesson"><strong>Application pratique :</strong> avant de prendre une décision urgente, un responsable peut se demander si elle est justifiée par les faits, proportionnée au risque et compatible avec ses obligations.</div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 9. Cybersécurité -->
+    <section id="cyber">
+      <div class="section-num">09</div>
+      <h2>Le Bushidō appliqué à la cybersécurité et à la gestion des risques</h2>
+      <p>Il ne s’agit pas de présenter les samouraïs comme des spécialistes de la cybersécurité, mais d’établir des analogies entre certaines vertus et les exigences de la gestion des risques.</p>
+
+      <div class="card">
+        <h4>Anticiper plutôt que subir</h4>
+        <p>La discipline et la préparation rappellent l’importance de connaître ses actifs, d’identifier les menaces, de tester les dispositifs de protection et de préparer les réponses aux incidents.</p>
+      </div>
+      <div class="card">
+        <h4>Conserver son sang-froid</h4>
+        <p>Lors d’une cyberattaque, la panique peut entraîner des erreurs supplémentaires. La maîtrise de soi invite à établir les faits, à appliquer les procédures et à coordonner les actions.</p>
+      </div>
+      <div class="card">
+        <h4>Dire la vérité sur le risque</h4>
+        <p>La droiture et la sincérité impliquent de ne pas masquer une vulnérabilité pour protéger une réputation. Un risque identifié doit être documenté, évalué et présenté aux décideurs.</p>
+      </div>
+      <div class="card">
+        <h4>Assumer ses responsabilités</h4>
+        <p>La loyauté implique aussi de contribuer à la résilience de l’organisation et de signaler les problèmes par les voies appropriées.</p>
+      </div>
+      <div class="lesson"><strong>Leçon :</strong> la sécurité ne repose pas uniquement sur les outils techniques. Elle dépend également de la qualité des décisions, de la fiabilité des informations et de la capacité collective à agir sous pression.</div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 10. Limites -->
+    <section id="limites">
+      <div class="section-num">10</div>
+      <h2>Les limites du Bushidō : ce qu’il ne faut pas idéaliser</h2>
+      <p>Une réflexion sérieuse sur le Bushidō doit aussi examiner ses limites.</p>
+
+      <h3>L’obéissance peut devenir dangereuse</h3>
+      <p>La loyauté envers un supérieur peut entrer en conflit avec la justice, la loi ou la protection d’autrui. Une organisation dans laquelle personne n’ose remettre en question une décision devient vulnérable aux erreurs collectives et aux abus de pouvoir.</p>
+
+      <h3>L’honneur peut se transformer en orgueil</h3>
+      <p>Lorsqu’il est assimilé à l’obligation de ne jamais perdre la face, l’honneur peut empêcher de reconnaître une erreur. L’intégrité exige parfois d’admettre que l’on s’est trompé.</p>
+
+      <h3>Le sacrifice n’est pas toujours une vertu</h3>
+      <p>Dans la vie contemporaine, mettre sa santé ou celle des autres en danger pour prouver son courage n’est pas nécessairement admirable. La responsabilité implique aussi de préserver les ressources humaines et de savoir renoncer lorsque les risques deviennent disproportionnés.</p>
+
+      <h3>L’idéal ne correspond pas toujours à la réalité historique</h3>
+      <p>Les samouraïs étaient des êtres humains, avec leurs qualités, leurs intérêts et leurs contradictions. Il faut étudier cette tradition avec intérêt, mais sans la transformer en modèle moral parfait.</p>
+      <div class="lesson"><strong>La meilleure manière d’en tirer profit</strong> consiste à conserver ses enseignements utiles tout en soumettant ses principes à un examen critique.</div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 11. Ouvrages -->
+    <section id="ouvrages">
+      <div class="section-num">11</div>
+      <h2>Trois ouvrages pour approfondir la voie du samouraï</h2>
+
+      <div class="book">
+        <div class="book-num">1</div>
+        <div>
+          <h4>Le Livre des cinq anneaux — Miyamoto Musashi</h4>
+          <p>Rédigé au XVIIe siècle, cet ouvrage traite de la stratégie martiale, de la perception, du rythme et de l’adaptation. Il permet de réfléchir à la préparation, à la compréhension d’une situation et à la nécessité d’éviter les automatismes. Sa lecture demande de replacer ses enseignements dans le contexte des arts martiaux.</p>
+        </div>
+      </div>
+      <div class="book">
+        <div class="book-num">2</div>
+        <div>
+          <h4>Hagakure — Yamamoto Tsunetomo</h4>
+          <p>Ce recueil de réflexions (début du XVIIIe siècle) aborde le service, la conduite, la décision et la préparation à la mort. Il constitue une source importante pour comprendre une conception particulière de l’idéal samouraï, mais doit être lu avec un regard historique et critique, notamment concernant l’obéissance et le sacrifice.</p>
+        </div>
+      </div>
+      <div class="book">
+        <div class="book-num">3</div>
+        <div>
+          <h4>Bushido: The Soul of Japan — Inazō Nitobe</h4>
+          <p>Publié en 1899, cet ouvrage a largement contribué à faire connaître le Bushidō auprès du public occidental. Nitobe présente les valeurs qu’il associe à cette tradition. Le livre est particulièrement utile pour comprendre la formulation moderne de l’idéal, tout en gardant à l’esprit qu’il s’agit d’une interprétation.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 12. Au quotidien -->
+    <section id="quotidien">
+      <div class="section-num">12</div>
+      <h2>Comment appliquer la voie du samouraï au quotidien ?</h2>
+      <p>Il n’est pas nécessaire de porter une armure ou de pratiquer les arts martiaux pour s’inspirer du Bushidō. Le plus utile consiste à transformer les principes en habitudes concrètes.</p>
+
+      <div class="exercise">
+        <h4>Exercice simple — 30 jours</h4>
+        <p><strong>Chaque matin : préparer sa journée</strong><br>
+        Choisir trois priorités réalistes et identifier le principal obstacle. Se demander : « Quelle préparation puis-je effectuer maintenant pour éviter une difficulté plus tard ? »</p>
+        <p><strong>Pendant la journée : maîtriser ses réactions</strong><br>
+        Lorsqu’une situation provoque de la colère ou de l’inquiétude, distinguer les faits des interprétations. Se demander : « Quelle réaction servira réellement mon objectif ? »</p>
+        <p><strong>Dans ses engagements : pratiquer la sincérité</strong><br>
+        Éviter les promesses irréalistes. Signaler rapidement les difficultés. Se demander : « Mes actes sont-ils cohérents avec mes paroles ? »</p>
+        <p><strong>Dans ses relations : exercer une autorité responsable</strong><br>
+        Écouter les objections, traiter les personnes avec respect. Se demander : « Est-ce que je cherche à résoudre le problème ou simplement à avoir raison ? »</p>
+        <p><strong>Chaque soir : faire le bilan</strong><br>
+        Prendre cinq minutes pour répondre à quatre questions :</p>
+        <ol>
+          <li>Ai-je agi conformément à mes principes ?</li>
+          <li>Ai-je laissé une émotion influencer une décision importante ?</li>
+          <li>Ai-je assumé mes responsabilités ?</li>
+          <li>Que puis-je améliorer demain ?</li>
+        </ol>
+      </div>
+      <p>L’objectif n’est pas d’atteindre une perfection irréaliste, mais de développer une cohérence croissante entre les valeurs que l’on défend et la manière dont on agit.</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Conclusion -->
+    <section id="conclusion">
+      <div class="section-num">Conclusion</div>
+      <h2>Être maître de soi avant de prétendre maîtriser les événements</h2>
+      <p>La voie du samouraï est souvent associée au courage, à l’honneur et au sacrifice. Pourtant, sa lecture contemporaine la plus intéressante ne se limite pas à l’image d’un guerrier prêt à combattre.</p>
+      <p>Elle invite à réfléchir à la manière de prendre des décisions, d’assumer ses engagements, de maîtriser ses réactions et de conserver son intégrité lorsque les circonstances deviennent difficiles.</p>
+      <p>La droiture rappelle l’importance de la justice. Le courage permet d’affronter les difficultés. La bienveillance donne une finalité humaine à la force. Le respect encadre les relations. La sincérité fonde la confiance. L’honneur implique d’assumer ses actes. La loyauté exige de tenir ses engagements sans abandonner son discernement.</p>
+      <p>Ces principes ne garantissent ni le succès ni l’absence d’erreur. Ils offrent plutôt des repères pour agir avec davantage de cohérence.</p>
+      <div class="card" style="border-color: var(--gold-dim);">
+        <p>La force n’a de valeur que lorsqu’elle est guidée par le discernement et la responsabilité.</p>
+        <p style="margin-bottom:0"><strong>La véritable victoire n’est donc pas toujours celle que l’on remporte sur un adversaire. Elle peut être celle qui consiste à ne pas se laisser gouverner par la peur, l’orgueil ou la colère.</strong></p>
+      </div>
+      <p style="margin-top:1.5rem">Et parfois, la décision la plus courageuse n’est pas de combattre, mais de savoir <strong>pourquoi, quand et pour quoi</strong> il faut agir.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>武士道 — Bushidō · La voie du samouraï</p>
+    <p style="margin-top:0.5rem">Philosophie · Leadership · Stratégie · Développement personnel</p>
+  </footer>
+
+  <a href="#accueil" class="back-top" id="back-top" title="Retour en haut">↑</a>
+
+  <!-- Music panel -->
+  <div class="music-panel" id="music-panel">
+    <button class="ctrl" id="music-play" title="Lecture / Pause">▶</button>
+    <div class="info">
+      <div class="title">San'an</div>
+      <div class="artist">Yokoyama Katsuya · Dernier concert live</div>
+    </div>
+    <button class="close" id="music-close" title="Fermer">✕</button>
+  </div>
+  <div id="yt-player"></div>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    // Theme toggle
+    const themeBtn = document.getElementById('theme-btn');
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', savedTheme);
+    themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+    themeBtn.addEventListener('click', () => {
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+    });
+
+    // Font size
+    let scale = parseFloat(localStorage.getItem('font-scale') || '1');
+    document.documentElement.style.setProperty('--font-scale', scale);
+
+    document.getElementById('font-up').addEventListener('click', () => {
+      scale = Math.min(1.3, scale + 0.1);
+      document.documentElement.style.setProperty('--font-scale', scale);
+      localStorage.setItem('font-scale', scale);
+    });
+    document.getElementById('font-down').addEventListener('click', () => {
+      scale = Math.max(0.8, scale - 0.1);
+      document.documentElement.style.setProperty('--font-scale', scale);
+      localStorage.setItem('font-scale', scale);
+    });
+
+    // Back to top
+    const backTop = document.getElementById('back-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 600) backTop.classList.add('visible');
+      else backTop.classList.remove('visible');
+    });
+
+    // Active nav link
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav a');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          const id = entry.target.id;
+          const link = document.querySelector(`.nav a[href="#${id}"]`);
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -60% 0px' });
+    sections.forEach(s => observer.observe(s));
+
+    // ——— Music: Yokoyama Katsuya — San'an (last live) ———
+    let ytPlayer = null;
+    let isPlaying = false;
+    const musicBtn = document.getElementById('music-btn');
+    const musicPanel = document.getElementById('music-panel');
+    const musicPlay = document.getElementById('music-play');
+    const musicClose = document.getElementById('music-close');
+
+    function onYouTubeIframeAPIReady() {
+      ytPlayer = new YT.Player('yt-player', {
+        height: '1',
+        width: '1',
+        videoId: 'bSjH8qWwFzI',
+        playerVars: {
+          autoplay: 0,
+          controls: 0,
+          modestbranding: 1,
+          rel: 0,
+          playsinline: 1
+        },
+        events: {
+          onStateChange: (e) => {
+            if (e.data === YT.PlayerState.PLAYING) {
+              isPlaying = true;
+              musicPlay.textContent = '❚❚';
+              musicBtn.classList.add('playing');
+            } else if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
+              isPlaying = false;
+              musicPlay.textContent = '▶';
+              musicBtn.classList.remove('playing');
+            }
+          }
+        }
+      });
+    }
+    // Expose for YouTube API callback
+    window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+
+    musicBtn.addEventListener('click', () => {
+      musicPanel.classList.toggle('visible');
+    });
+
+    musicPlay.addEventListener('click', () => {
+      if (!ytPlayer) return;
+      if (isPlaying) {
+        ytPlayer.pauseVideo();
+      } else {
+        ytPlayer.playVideo();
+      }
+    });
+
+    musicClose.addEventListener('click', () => {
+      musicPanel.classList.remove('visible');
+      if (ytPlayer && isPlaying) {
+        ytPlayer.pauseVideo();
+      }
+    });
+  </script>
+</body>
+</html>
